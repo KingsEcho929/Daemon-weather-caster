@@ -3,59 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Todo — Local Storage</title>
+  <title>Daemon Portal — Tasks & Weather</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="app" role="main" aria-labelledby="appTitle">
-    <header class="app-header">
-      <h1 id="appTitle">Todo — Local</h1>
-      <div class="controls">
-        <input id="newTodo" type="text" placeholder="Add a new task and press Enter" aria-label="New task title" />
-        <button id="addBtn" aria-label="Add task">Add</button>
-      </div>
-      <div class="meta-row">
-        <div class="filters" role="tablist" aria-label="Filter tasks">
-          <button class="filter active" data-filter="all" role="tab" aria-selected="true">All</button>
-          <button class="filter" data-filter="active" role="tab">Active</button>
-          <button class="filter" data-filter="completed" role="tab">Completed</button>
-        </div>
-
-        <div class="tools">
-          <input id="search" type="search" placeholder="Search tasks..." aria-label="Search tasks"/>
-          <button id="clearCompleted">Clear Completed</button>
-          <button id="clearAll">Clear All</button>
-        </div>
+  <main class="app">
+    <header>
+      <h1>Daemon Portal</h1>
+      <div class="view-toggle">
+        <button id="showTasks">📝 Tasks</button>
+        <button id="showWeather">🌦️ Weather</button>
       </div>
     </header>
 
-    <section id="todoSection" class="todo-section" aria-live="polite">
-      <ul id="todoList" class="todo-list"></ul>
-      <div class="list-footer">
-        <span id="counts" class="counts">0 items</span>
-      </div>
+    <section id="taskView" class="view active">
+      <iframe src="tasks/index.html" title="Task Daemon" class="daemon-frame"></iframe>
     </section>
 
-    <!-- Template -->
-    <template id="taskTpl">
-      <li class="task" draggable="false">
-        <label class="chk">
-          <input type="checkbox" class="toggle" />
-          <span class="checkmark" aria-hidden="true"></span>
-        </label>
-        <div class="body">
-          <div class="title" data-editable="true"></div>
-          <div class="meta">
-            <small class="created"></small>
-          </div>
-        </div>
-        <div class="actions">
-          <button class="edit" title="Edit">✏️</button>
-          <button class="delete" title="Delete">🗑️</button>
-        </div>
-      </li>
-    </template>
-
+    <section id="weatherView" class="view">
+      <iframe src="weather/index.html" title="Weather Daemon" class="daemon-frame"></iframe>
+    </section>
   </main>
 
   <script src="script.js"></script>
