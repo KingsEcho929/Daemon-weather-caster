@@ -3,57 +3,59 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Weather Dashboard</title>
+  <title>Todo — Local Storage</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="container" role="main">
-    <header class="header">
-      <h1>Weather Dashboard</h1>
-      <div class="controls-row">
-        <div class="unit-toggle" role="radiogroup" aria-label="Temperature units">
-          <button id="cBtn" data-unit="C" class="unit active">°C</button>
-          <button id="fBtn" data-unit="F" class="unit">°F</button>
+  <main class="app" role="main" aria-labelledby="appTitle">
+    <header class="app-header">
+      <h1 id="appTitle">Todo — Local</h1>
+      <div class="controls">
+        <input id="newTodo" type="text" placeholder="Add a new task and press Enter" aria-label="New task title" />
+        <button id="addBtn" aria-label="Add task">Add</button>
+      </div>
+      <div class="meta-row">
+        <div class="filters" role="tablist" aria-label="Filter tasks">
+          <button class="filter active" data-filter="all" role="tab" aria-selected="true">All</button>
+          <button class="filter" data-filter="active" role="tab">Active</button>
+          <button class="filter" data-filter="completed" role="tab">Completed</button>
         </div>
-        <div class="saved-locations" id="savedLocations" aria-live="polite"></div>
+
+        <div class="tools">
+          <input id="search" type="search" placeholder="Search tasks..." aria-label="Search tasks"/>
+          <button id="clearCompleted">Clear Completed</button>
+          <button id="clearAll">Clear All</button>
+        </div>
       </div>
     </header>
 
-    <section class="controls" aria-label="Search controls">
-      <label for="search">City or place</label>
-      <div class="search-row">
-        <input id="search" type="search" placeholder="e.g. Portland, OR or London" aria-label="Search for a city or place"/>
-        <button id="searchBtn">Search</button>
-        <button id="locBtn" title="Use my location">Use my location</button>
-        <button id="saveBtn" title="Save current place" disabled>Save</button>
-      </div>
-      <p class="hint">Geocoding: OpenStreetMap Nominatim • Weather: Open-Meteo (no API key)</p>
-    </section>
-
-    <section id="dashboard" class="dashboard" aria-live="polite" hidden>
-      <div class="summary">
-        <div>
-          <div class="place" id="place"></div>
-          <div class="meta" id="meta"></div>
-        </div>
-        <div class="current">
-          <div class="temp" id="temp"></div>
-          <div class="desc" id="desc"></div>
-        </div>
-      </div>
-
-      <div id="hourly" class="hourly" aria-label="Hourly forecast">
-        <h2>Hourly (next 24h)</h2>
-        <div class="hourly-list" id="hourlyList" role="list"></div>
-      </div>
-
-      <div id="details" class="details" aria-label="Weather details">
-        <h3>Details</h3>
-        <ul id="detailsList"></ul>
+    <section id="todoSection" class="todo-section" aria-live="polite">
+      <ul id="todoList" class="todo-list"></ul>
+      <div class="list-footer">
+        <span id="counts" class="counts">0 items</span>
       </div>
     </section>
 
-    <section id="message" class="message" role="status"></section>
+    <!-- Template -->
+    <template id="taskTpl">
+      <li class="task" draggable="false">
+        <label class="chk">
+          <input type="checkbox" class="toggle" />
+          <span class="checkmark" aria-hidden="true"></span>
+        </label>
+        <div class="body">
+          <div class="title" data-editable="true"></div>
+          <div class="meta">
+            <small class="created"></small>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="edit" title="Edit">✏️</button>
+          <button class="delete" title="Delete">🗑️</button>
+        </div>
+      </li>
+    </template>
+
   </main>
 
   <script src="script.js"></script>
