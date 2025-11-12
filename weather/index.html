@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -11,7 +11,7 @@
     <header class="header">
       <h1>Weather Dashboard</h1>
       <div class="controls-row">
-        <div class="unit-toggle" role="radiogroup" aria-label="Temperature unit">
+        <div class="unit-toggle" role="radiogroup" aria-label="Temperature units">
           <button id="cBtn" data-unit="C" class="unit active">°C</button>
           <button id="fBtn" data-unit="F" class="unit">°F</button>
         </div>
@@ -22,12 +22,12 @@
     <section class="controls" aria-label="Search controls">
       <label for="search">City or place</label>
       <div class="search-row">
-        <input id="search" type="search" placeholder="e.g. Portland, OR or London" />
+        <input id="search" type="search" placeholder="e.g. Portland, OR or London" aria-label="Search for a city or place"/>
         <button id="searchBtn">Search</button>
         <button id="locBtn" title="Use my location">Use my location</button>
         <button id="saveBtn" title="Save current place" disabled>Save</button>
       </div>
-      <p class="hint">Geocoding: OpenStreetMap Nominatim • Weather: Open-Meteo</p>
+      <p class="hint">Geocoding: OpenStreetMap Nominatim • Weather: Open-Meteo (no API key)</p>
     </section>
 
     <section id="dashboard" class="dashboard" aria-live="polite" hidden>
