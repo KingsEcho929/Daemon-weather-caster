@@ -1,46 +1,61 @@
-const form = document.getElementById('locationForm');
-const input = document.getElementById('locationInput');
-const output = document.getElementById('forecastOutput');
-const loading = document.getElementById('loading');
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weather Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="container" role="main">
+    <header class="header">
+      <h1>Weather Dashboard</h1>
+      <div class="controls-row">
+        <div class="unit-toggle" role="radiogroup" aria-label="Temperature units">
+          <button id="cBtn" data-unit="C" class="unit active">°C</button>
+          <button id="fBtn" data-unit="F" class="unit">°F</button>
+        </div>
+        <div class="saved-locations" id="savedLocations" aria-live="polite"></div>
+      </div>
+    </header>
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const query = input.value.trim();
-  if (!query) return;
+    <section class="controls" aria-label="Search controls">
+      <label for="search">City or place</label>
+      <div class="search-row">
+        <input id="search" type="search" placeholder="e.g. Portland, OR or London" aria-label="Search for a city or place"/>
+        <button id="searchBtn">Search</button>
+        <button id="locBtn" title="Use my location">Use my location</button>
+        <button id="saveBtn" title="Save current place" disabled>Save</button>
+      </div>
+      <p class="hint">Geocoding: OpenStreetMap Nominatim • Weather: Open-Meteo (no API key)</p>
+    </section>
 
-  output.innerHTML = '';
-  loading.style.display = 'block';
+    <section id="dashboard" class="dashboard" aria-live="polite" hidden>
+      <div class="summary">
+        <div>
+          <div class="place" id="place"></div>
+          <div class="meta" id="meta"></div>
+        </div>
+        <div class="current">
+          <div class="temp" id="temp"></div>
+          <div class="desc" id="desc"></div>
+        </div>
+      </div>
 
-  try {
-    const geo = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`);
-    const geoData = await geo.json();
-    if (!geoData.length) throw new Error('Location not found');
+      <div id="hourly" class="hourly" aria-label="Hourly forecast">
+        <h2>Hourly (next 24h)</h2>
+        <div class="hourly-list" id="hourlyList" role="list"></div>
+      </div>
 
-    const { lat, lon, display_name } = geoData[0];
-    const weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`);
-    const weatherData = await weather.json();
+      <div id="details" class="details" aria-label="Weather details">
+        <h3>Details</h3>
+        <ul id="detailsList"></ul>
+      </div>
+    </section>
 
-    const days = weatherData.daily.time;
-    const maxTemps = weatherData.daily.temperature_2m_max;
-    const minTemps = weatherData.daily.temperature_2m_min;
-    const precip = weatherData.daily.precipitation_sum;
+    <section id="message" class="message" role="status"></section>
+  </main>
 
-    const html = [`<h2>Forecast for ${display_name}</h2><ul class="forecast">`];
-    for (let i = 0; i < days.length; i++) {
-      html.push(`
-        <li>
-          <strong>${days[i]}</strong><br/>
-          High: ${maxTemps[i]}°C<br/>
-          Low: ${minTemps[i]}°C<br/>
-          Precipitation: ${precip[i]} mm
-        </li>
-      `);
-    }
-    html.push('</ul>');
-    output.innerHTML = html.join('');
-  } catch (err) {
-    output.innerHTML = `<p class="error">Error: ${err.message}</p>`;
-  } finally {
-    loading.style.display = 'none';
-  }
-});
+  <script src="script.js"></script>
+</body>
+</html>
